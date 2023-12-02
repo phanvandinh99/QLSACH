@@ -1,0 +1,160 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="trangchu.master.cs" Inherits="QLSACH.trangchu" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <style>
+        body{
+            width:80%;
+            margin: 0 auto;
+           
+            font-family:'Times New Roman', Times, serif;
+        }
+        img {
+               width: 100%;
+               height: 150px;
+        }
+            nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #FFFFCC;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        nav li {
+            display: inline-block;
+        }
+
+        nav a {
+            display: block;
+            color:#000000;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #440000;
+            color: #000000;
+        }
+
+        
+        nav li:nth-child(odd) {
+            text-align: right;
+        }
+
+        nav li:nth-child(even) {
+            text-align: left;
+        }
+        #left{
+           width:150px;
+           float:left;
+           padding:20px;
+        }
+        #content{
+            height:400px;
+             width:535px;
+            text-align:justify;
+            float:right;
+            height:500px;
+            
+        }
+        #footer{
+           text-align:center;
+            padding:0;
+            display:block;
+            clear:both;
+            background-color:#33CCFF;
+        }
+         #left{
+            
+            width: 155px;
+            background-color: #CDC5BF;
+            color: black;
+            padding: 15px;
+            box-sizing: border-box;
+            flex: 1;
+            height:500px;
+
+        }
+
+      
+        #left a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+        #footer {
+            background-color: #EED2EE;
+            color:black;
+            text-align: center;
+            padding: 7px;
+            height:50px;
+        }
+
+           .auto-style1 {
+               width: 468px;
+           }
+
+        .auto-style2 {
+            margin-top: 13px;
+        }
+
+        </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+         <div id="body">
+            <div>
+                <img src="img/tải%20xuống%20(1).jpg" />
+              
+               
+
+            </div>
+              <nav>
+               <ul>
+                     <li><a href="#">Trang chủ</a></li>
+                     <li><a href="#">Giới thiệu</a></li>
+                      <li><a href="#">Tin tức</a></li>
+                     <li><a href="#">NCKH</a></li>
+                    <li><a href="#">Đào tạo</a></li>
+                    <li><a href="#">Sinh Viên</a></li>
+                   <li><a href="#">Liên hệ</a></li>
+                </ul>
+                 </nav>
+            <div>
+                  <div id="left" >  Trang chủ
+                     <a href="bai1.aspx">Trang quản trị</a>
+                     <a href="bai2.aspx">Quản lí thể loại </a>
+                      <a href="bai3.aspx">Quản lí sách</a>
+                      <a href="bai4.aspx"> Quản lí người dùng</a>
+                      <a href="bai5.aspx">Quản lí đăng xuất</a>
+                      
+                  </div>
+               
+                <div id="content" class="auto-style1">
+                   
+                   
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                   
+                   
+                </div>
+                
+                <div id="footer"> 
+                    Nguyễn Duy Khánh -TT1D20<br />
+                    Khoa CNTT-ĐHCNVT
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>
