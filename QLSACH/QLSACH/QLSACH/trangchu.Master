@@ -70,8 +70,8 @@
             width: 88%;
             text-align: justify;
             float: right;
-            height: 550px;
-            background-color: aqua
+            height: 560px;
+            background-color: white
         }
 
         #footer {
@@ -101,11 +101,11 @@
                 margin-bottom: 5px;
             }
 
-            #left a:hover {
-                margin-left: 6px;
-                color: blue;
-                /*background-color:antiquewhite*/
-            }
+                #left a:hover {
+                    margin-left: 6px;
+                    color: blue;
+                    /*background-color:antiquewhite*/
+                }
 
 
         #footer {
@@ -122,6 +122,12 @@
 
         .auto-style2 {
             margin-top: 13px;
+        }
+
+        /*css hiển thị lỗi*/
+        .error-message {
+            font-style: italic; /* Chữ nghiêng */
+            color: red; /* Màu đỏ */
         }
     </style>
 </head>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Web;
 using System.Web.UI.WebControls;
 
@@ -9,6 +10,7 @@ namespace QLSACH
     public partial class quanli : System.Web.UI.Page
     {
         private KetNoiCSDL dbConnection;
+        string fileName = string.Empty;
 
         #region LOAD
         protected void Page_Load(object sender, EventArgs e)
@@ -49,6 +51,11 @@ namespace QLSACH
                 txtsoluong.Text = GridView1.Rows[selectedIndex].Cells[4].Text;
                 txtmota.Text = HttpUtility.HtmlDecode((string)(GridView1.Rows[selectedIndex].Cells[5].Text.ToString()));
                 string maloaiValue = GridView1.DataKeys[GridView1.SelectedIndex]["maloai"].ToString();
+                string nameImage = GridView1.Rows[selectedIndex].Cells[6].Text;
+
+
+                // Hiển thị hình ảnh
+                Image1.ImageUrl = "~/img/" + nameImage;
 
                 // Cập nhật giá trị của DropDownList
                 DDLmasach.SelectedValue = maloaiValue;
@@ -69,9 +76,9 @@ namespace QLSACH
                 string moTa = txtmota.Text;
                 string maLoai = DDLmasach.SelectedValue;
 
-
                 dbConnection.open();
-                string sqlInsert = $"INSERT INTO sach (tensach, tacgia, gia, soluong, mota, tenfile, maloai) VALUES (N'{tenSach}', N'{tacGia}', {gia}, {soLuong}, N'{moTa}', N'NoiKhongCoTuyet.jpg', {maLoai})";
+                string sqlInsert = string.Empty;
+                sqlInsert = $"INSERT INTO sach (tensach, tacgia, gia, soluong, mota, tenfile, maloai) VALUES (N'{tenSach}', N'{tacGia}', {gia}, {soLuong}, N'{moTa}', N'{fileName}', {maLoai})";
                 dbConnection.xuly(sqlInsert);
                 dbConnection.close();
                 Clear();
@@ -91,17 +98,92 @@ namespace QLSACH
 
         protected void btnanh_Click(object sender, EventArgs e)
         {
-            string tenanh;
-            tenanh = FileUpload2.FileName;
-            FileUpload2.SaveAs(MapPath("~/img/") + tenanh);
-            Image1.ImageUrl = "~/img/" + tenanh;
+            // Tắt validation
+            RequiredFieldValidator1.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
+            RequiredFieldValidator3.Enabled = false;
+            RequiredFieldValidator4.Enabled = false;
+            RequiredFieldValidator5.Enabled = false;
+            RegularExpressionValidator1.Enabled = false;
+            RegularExpressionValidator2.Enabled = false;
+            //RequiredFieldValidatorFile.Enabled = false;
 
+            try
+            {
+                if (FileUpload2.HasFile)
+                {
+                    // Lưu hình ảnh vào thư mục trên server
+                    fileName = Path.GetFileName(FileUpload2.PostedFile.FileName);
+
+                    // Đường dẫn thư mục Images, đường dẫn tương đối
+                    string imagePath = "~/img/" + fileName;
+
+                    FileUpload2.SaveAs(Server.MapPath(imagePath));
+
+                    // Hiển thị hình ảnh mới
+                    Image1.ImageUrl = imagePath;
+                }
+                else
+                {
+                    string script = "alert('Bạn phải chọn hình ảnh.');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "Thông báo", script, true);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                string script = $"alert('Lỗi: {ex.Message}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "Lỗi", script, true);
+            }
+            finally
+            {
+                // Bật validation
+                RequiredFieldValidator1.Enabled = true;
+                RequiredFieldValidator2.Enabled = true;
+                RequiredFieldValidator3.Enabled = true;
+                RequiredFieldValidator4.Enabled = true;
+                RequiredFieldValidator5.Enabled = true;
+                RegularExpressionValidator1.Enabled = true;
+                RegularExpressionValidator2.Enabled = true;
+                //RequiredFieldValidatorFile.Enabled = true;
+            }
         }
 
         #region Button Làm lại
         protected void btnlamlai_Click(object sender, EventArgs e)
         {
-            Clear();
+            // Tắt validation
+            RequiredFieldValidator1.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
+            RequiredFieldValidator3.Enabled = false;
+            RequiredFieldValidator4.Enabled = false;
+            RequiredFieldValidator5.Enabled = false;
+            RegularExpressionValidator1.Enabled = false;
+            RegularExpressionValidator2.Enabled = false;
+            //RequiredFieldValidatorFile.Enabled = false;
+            try
+            {
+                Clear();
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                string script = $"alert('Lỗi: {ex.Message}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "Lỗi", script, true);
+            }
+            finally
+            {
+                // Bật validation
+                RequiredFieldValidator1.Enabled = true;
+                RequiredFieldValidator2.Enabled = true;
+                RequiredFieldValidator3.Enabled = true;
+                RequiredFieldValidator4.Enabled = true;
+                RequiredFieldValidator5.Enabled = true;
+                RegularExpressionValidator1.Enabled = true;
+                RegularExpressionValidator2.Enabled = true;
+                //RequiredFieldValidatorFile.Enabled = true;
+            }
         }
         #endregion
 
@@ -115,6 +197,7 @@ namespace QLSACH
             txtgia.Text = string.Empty;
             txtsoluong.Text = string.Empty;
             txtmota.Text = string.Empty;
+            Image1.ImageUrl = null;
             DDLmasach.SelectedIndex = 1;
         }
 
@@ -141,7 +224,15 @@ namespace QLSACH
                 }
 
                 dbConnection.open();
-                string sqlInsert = $"UPDATE sach SET tensach = N'{tenSach}', tacgia = N'{tacGia}', gia = {gia}, soluong = {soLuong}, mota = N'{moTa}', tenfile = N'NoiKhongCoTuyet.jpg', maloai = {maLoai} WHERE masach = {maSach}";
+                string sqlInsert = string.Empty;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    sqlInsert = $"UPDATE sach SET tensach = N'{tenSach}', tacgia = N'{tacGia}', gia = {gia}, soluong = {soLuong}, mota = N'{moTa}', maloai = {maLoai} WHERE masach = {maSach}";
+                }
+                else
+                {
+                    sqlInsert = $"UPDATE sach SET tensach = N'{tenSach}', tacgia = N'{tacGia}', gia = {gia}, soluong = {soLuong}, mota = N'{moTa}', tenfile = N'{fileName}', maloai = {maLoai} WHERE masach = {maSach}";
+                }
                 dbConnection.xuly(sqlInsert);
                 dbConnection.close();
                 Clear();
@@ -175,6 +266,7 @@ namespace QLSACH
                 RequiredFieldValidator5.Enabled = false;
                 RegularExpressionValidator1.Enabled = false;
                 RegularExpressionValidator2.Enabled = false;
+                //RequiredFieldValidatorFile.Enabled = false;
 
                 // Kiểm tra mã sách có tồn tại không
                 if (string.IsNullOrEmpty(maSach))
@@ -200,7 +292,8 @@ namespace QLSACH
                 string script = $"alert('Lỗi: {ex.Message}');";
                 ClientScript.RegisterStartupScript(this.GetType(), "Lỗi", script, true);
             }
-            finally {
+            finally
+            {
                 // Bật validation
                 RequiredFieldValidator1.Enabled = true;
                 RequiredFieldValidator2.Enabled = true;
@@ -209,6 +302,7 @@ namespace QLSACH
                 RequiredFieldValidator5.Enabled = true;
                 RegularExpressionValidator1.Enabled = true;
                 RegularExpressionValidator2.Enabled = true;
+                //RequiredFieldValidatorFile.Enabled = true;
             }
         }
         #endregion

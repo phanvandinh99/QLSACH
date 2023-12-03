@@ -1,20 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/trangchu.Master" AutoEventWireup="true" CodeBehind="quanli.aspx.cs" Inherits="QLSACH.quanli" ValidateRequest="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <table style="height: 560px; background-color: aquamarine; width: 100%">
+    <table style="height: 560px; width: 100%">
         <tr>
             <td colspan="2" style="height: 23px; text-align: center"><strong>THÔNG TIN SÁCH</strong></td>
         </tr>
         <tr>
             <td style="height: 23px; width: 50px; padding-left: 20px">Mã sách</td>
             <td style="height: 23px; width: 74px;">
-                <asp:TextBox ID="txtmasach" runat="server" Width="205px" BackColor="#e9e9e9" readonly="true"></asp:TextBox>
+                <asp:TextBox ID="txtmasach" runat="server" Width="205px" BackColor="#e9e9e9" ReadOnly="true"></asp:TextBox>
                 &nbsp;&nbsp;&nbsp; </td>
             <td style="width: 10px;" rowspan="8">Chọn ảnh<asp:FileUpload ID="FileUpload2" runat="server" />
                 <br />
-                <asp:Button ID="btnanh" runat="server" OnClick="btnanh_Click" Text="UPLOAD ẢNH" />
+                <asp:Button ID="btnanh" runat="server" Text="UPLOAD ẢNH" OnClick="btnanh_Click" CausesValidation="false" />
                 <br />
                 <asp:Image ID="Image1" runat="server" Height="200px" Width="300px" />
+               <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidatorFile" runat="server"
+                    ControlToValidate="FileUpload2"
+                    ErrorMessage="Vui lòng chọn một hình ảnh."
+                    Display="Dynamic"
+                    ForeColor="Red"
+                    ValidationGroup="ImageValidationGroup" />--%>
             </td>
         </tr>
         <tr>
@@ -24,7 +30,8 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
                     ControlToValidate="txttensach"
                     ErrorMessage="Vui lòng nhập tên sách."
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
             </td>
         </tr>
         <tr>
@@ -34,7 +41,8 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
                     ControlToValidate="txttacgia"
                     ErrorMessage="Vui lòng nhập tác giả."
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
             </td>
         </tr>
         <tr>
@@ -44,12 +52,14 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
                     ControlToValidate="txtgia"
                     ErrorMessage="Vui lòng nhập giá bán."
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
                     ControlToValidate="txtgia"
-                    ErrorMessage="Giá bán chỉ nhập số"
+                    ErrorMessage="Giá bán chỉ nhập số."
                     ValidationExpression="^\d+$"
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
             </td>
         </tr>
         <tr>
@@ -59,12 +69,14 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
                     ControlToValidate="txtsoluong"
                     ErrorMessage="Vui lòng nhập số lượng."
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
                     ControlToValidate="txtsoluong"
-                    ErrorMessage="Số lượng chỉ nhập số"
+                    ErrorMessage="Số lượng chỉ nhập số."
                     ValidationExpression="^\d+$"
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
             </td>
         </tr>
         <tr>
@@ -74,7 +86,8 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server"
                     ControlToValidate="txtmota"
                     ErrorMessage="Vui lòng nhập mô tả."
-                    Display="Dynamic" />
+                    Display="Dynamic"
+                    CssClass="error-message" />
             </td>
         </tr>
         <tr>
@@ -93,7 +106,7 @@
                 <asp:Button ID="btnthem" runat="server" Style="font-weight: bold" Text="THÊM" OnClick="btnthem_Click" />
                 <asp:Button ID="btnsua" runat="server" Style="font-weight: bold" Text="SỬA" OnClick="btnsua_Click" />
                 <asp:Button ID="btnxoa" runat="server" Style="font-weight: bold" Text="XOÁ" OnClick="btnxoa_Click" CausesValidation="false" />
-                <asp:Button ID="btnlamlai" runat="server" Style="font-weight: bold" Text="LÀM LẠI" OnClick="btnlamlai_Click" />
+                <asp:Button ID="btnlamlai" runat="server" Style="font-weight: bold" Text="LÀM LẠI" OnClick="btnlamlai_Click" CausesValidation="false" />
             </strong></td>
         </tr>
         <tr>
