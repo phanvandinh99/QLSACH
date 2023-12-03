@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Data.OleDb;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 
 public class KetNoiCSDL
@@ -16,33 +10,65 @@ public class KetNoiCSDL
     private SqlDataAdapter da;
 
 
-    public void  open()
+    public void open()
     {
-        SqlConnection ketnoi;
-        string chuoiketnoi = @"Data Source=NTH95-20201005E;Initial Catalog=QLSACH;Integrated Security=True";
-        ketnoi = new SqlConnection(chuoiketnoi);
-        ketnoi.Open();
-         
+        if (connection == null)
+        {
+            string chuoiketnoi = @"Data Source=PHANDINH\SQLEXPRESS;Initial Catalog=QLSACH;Integrated Security=True";
+            connection = new SqlConnection(chuoiketnoi);
+        }
+
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
     }
+
     public void close()
     {
         connection.Close();
     }
-    public DataTable laydulieu(string sql)
 
+    public DataTable laydulieu(string sql)
     {
+        if (connection.State == ConnectionState.Closed)
+        {
+            open();
+        }
         cmd = new SqlCommand(sql, connection);
         da = new SqlDataAdapter(cmd);
         DataTable dt = new DataTable();
         da.Fill(dt);
         return dt;
     }
+
     public void xuly(string sql)
     {
+        if (connection.State == ConnectionState.Closed)
+        {
+            open();
+        }
+
         cmd = new SqlCommand(sql, connection);
         cmd.ExecuteNonQuery();
     }
 
-   
-   
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (connection != null)
+            {
+                connection.Dispose();
+                connection = null;
+            }
+        }
+    }
 }
